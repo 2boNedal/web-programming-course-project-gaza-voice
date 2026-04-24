@@ -1,7 +1,7 @@
 
 (function ($) {
     "use strict";
-    
+
     // Sticky Navbar
     $(window).scroll(function () {
         if ($(this).scrollTop() > 90) {
@@ -12,8 +12,8 @@
             $('.top-header').removeClass('header-hidden');
         }
     });
-    
-    
+
+
     // Dropdown on mouse hover
     $(document).ready(function () {
         function toggleNavbarMethod() {
@@ -30,8 +30,8 @@
         toggleNavbarMethod();
         $(window).resize(toggleNavbarMethod);
     });
-    
-    
+
+
     // Back to top button
     $(window).scroll(function () {
         if ($(this).scrollTop() > 100) {
@@ -44,8 +44,8 @@
         $('html, body').animate({scrollTop: 0}, 1500, 'easeInOutExpo');
         return false;
     });
-    
-    
+
+
     // Category News Slider
     $('.cn-slider').slick({
         autoplay: false,
@@ -181,55 +181,52 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("sellRate").textContent = item.sell;
     }
 
-    weatherTrigger.addEventListener("click", function (e) {
-        e.stopPropagation();
-        weatherDropdown.style.display = weatherDropdown.style.display === "block" ? "none" : "block";
-        currencyDropdown.style.display = "none";
-    });
+    if (weatherTrigger && weatherDropdown && currencyDropdown) {
+        weatherTrigger.addEventListener("click", function (e) {
+            e.stopPropagation();
+            weatherDropdown.style.display = weatherDropdown.style.display === "block" ? "none" : "block";
+            currencyDropdown.style.display = "none";
+        });
+    }
 
-    currencyTrigger.addEventListener("click", function (e) {
-        e.stopPropagation();
-        currencyDropdown.style.display = currencyDropdown.style.display === "block" ? "none" : "block";
-        weatherDropdown.style.display = "none";
-    });
+    if (currencyTrigger && currencyDropdown && weatherDropdown) {
+        currencyTrigger.addEventListener("click", function (e) {
+            e.stopPropagation();
+            currencyDropdown.style.display = currencyDropdown.style.display === "block" ? "none" : "block";
+            weatherDropdown.style.display = "none";
+        });
+    }
 
     document.querySelectorAll("#weatherDropdown li").forEach(item => {
         item.addEventListener("click", function () {
             updateWeather(this.dataset.location);
-            weatherDropdown.style.display = "none";
+            if (weatherDropdown) {
+                weatherDropdown.style.display = "none";
+            }
         });
     });
 
     document.querySelectorAll("#currencyDropdown li").forEach(item => {
         item.addEventListener("click", function () {
             updateCurrency(this.dataset.currency);
-            currencyDropdown.style.display = "none";
+            if (currencyDropdown) {
+                currencyDropdown.style.display = "none";
+            }
         });
     });
 
     document.addEventListener("click", function (event) {
-        weatherDropdown.style.display = "none";
-        currencyDropdown.style.display = "none";
+        if (weatherDropdown) {
+            weatherDropdown.style.display = "none";
+        }
+        if (currencyDropdown) {
+            currencyDropdown.style.display = "none";
+        }
         const searchPanel = document.getElementById('navSearchPanel');
         if (searchPanel && !searchPanel.contains(event.target)) {
             searchPanel.classList.remove('open');
         }
     });
-
-    const availableTags = [
-        'غزة',
-        'فلسطين',
-        'اقتصاد',
-        'تكنولوجيا',
-        'صحة',
-        'ثقافة',
-        'رياضة',
-        'تعليم',
-        'حقوق الإنسان',
-        'الوطن العربي',
-        'شؤون إسرائيلية',
-        'دول عربية'
-    ];
 
     let selectedTags = [];
     const searchPanel = document.getElementById('navSearchPanel');
@@ -238,61 +235,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.getElementById('searchTagInput');
     const suggestionsBox = document.getElementById('tagSuggestions');
     const selectedTagsContainer = document.getElementById('selectedSearchTags');
-    const searchResultsActiveTags = document.getElementById('searchResultsActiveTags');
-    const searchResultsGrid = document.getElementById('searchResultsGrid');
-    const searchNoResults = document.getElementById('searchNoResults');
-
-    const searchItems = [
-        {
-            title: 'مساعدات طبية عاجلة تصل إلى غزة لدعم المستشفيات المحلية',
-            excerpt: 'تصل شحنات المساعدات الطبية إلى مستشفيات غزة التي تعمل على استيعاب حالات جديدة.',
-            category: 'غزة',
-            date: '08-Apr-2026',
-            tags: ['غزة', 'صحة']
-        },
-        {
-            title: 'اقتصاد غزة في مواجهة التحديات: حلول محلية ودعم خارجي',
-            excerpt: 'تركز التقارير على سبل دعم المشاريع الصغيرة وتحفيز النمو الاقتصادي في القطاع.',
-            category: 'اقتصاد',
-            date: '07-Apr-2026',
-            tags: ['غزة', 'اقتصاد']
-        },
-        {
-            title: 'قمة عربية جديدة للمبادرات الاقتصادية والاجتماعية',
-            excerpt: 'تناقش القمة مبادرات لتعزيز التعاون الاقتصادي وبناء شبكات دعم مجتمعية في الوطن العربي.',
-            category: 'الوطن العربي',
-            date: '06-Apr-2026',
-            tags: ['الوطن العربي', 'اقتصاد', 'دول عربية']
-        },
-        {
-            title: 'أحدث تطورات شؤون إسرائيلية وتأثيرها على المشهد الإقليمي',
-            excerpt: 'تحليل سياسي لمشروع القرار الحكومي وتأثيره على العلاقات مع الجوار.',
-            category: 'شؤون إسرائيلية',
-            date: '05-Apr-2026',
-            tags: ['شؤون إسرائيلية', 'الوطن العربي']
-        },
-        {
-            title: 'مبادرة تعليمية فلسطينية لدعم الطلاب في المدارس المحلية',
-            excerpt: 'عرض لأبرز البرامج التعليمية التي تهدف إلى تعزيز المعرفة وتطوير المهارات.',
-            category: 'فلسطين',
-            date: '04-Apr-2026',
-            tags: ['فلسطين', 'تعليم']
-        },
-        {
-            title: 'تكنولوجيا ذكية تحسن خدمات الطوارئ في قطاع غزة',
-            excerpt: 'مشروع حديث يعتمد على تقنيات ذكية لتحسين الاستجابة الطبية في المناطق العاجلة.',
-            category: 'تكنولوجيا',
-            date: '03-Apr-2026',
-            tags: ['تكنولوجيا', 'صحة']
-        },
-        {
-            title: 'أبطال رياضيون فلسطينيون يحققون إنجازات دولية',
-            excerpt: 'تسلط الأضواء على النجاحات الرياضية وتطور المشهد الرياضي المحلي.',
-            category: 'رياضة',
-            date: '02-Apr-2026',
-            tags: ['رياضة', 'فلسطين']
-        }
-    ];
+    const suggestionCache = [];
 
     function normalizeTag(text) {
         return text.trim().toLowerCase();
@@ -319,22 +262,35 @@ document.addEventListener("DOMContentLoaded", function () {
     function renderSuggestions(filter) {
         if (!suggestionsBox) return;
         const query = (filter || '').trim().toLowerCase();
-        const matches = availableTags.filter(tag => {
-            const normalizedTag = normalizeTag(tag);
-            return !selectedTags.includes(tag) && (!query || normalizedTag.includes(query));
-        });
 
         if (!query) {
             suggestionsBox.innerHTML = '';
             return;
         }
 
-        if (matches.length === 0) {
-            suggestionsBox.innerHTML = '<div class="suggestion-empty">لا توجد وسوم مطابقة</div>';
-            return;
-        }
+        fetch('/tags/suggest?q=' + encodeURIComponent(filter || ''))
+            .then(response => response.json())
+            .then(items => {
+                suggestionCache.length = 0;
+                items.forEach(item => suggestionCache.push(item));
 
-        suggestionsBox.innerHTML = matches.slice(0, 6).map(tag => `<button type="button" class="suggestion-item" data-tag="${tag}">${tag}</button>`).join('');
+                const matches = items
+                    .map(item => item.name)
+                    .filter(name => !selectedTags.includes(name));
+
+                if (matches.length === 0) {
+                    suggestionsBox.innerHTML = '<div class="suggestion-empty">لا توجد وسوم مطابقة</div>';
+                    return;
+                }
+
+                suggestionsBox.innerHTML = matches
+                    .slice(0, 6)
+                    .map(tag => `<button type="button" class="suggestion-item" data-tag="${tag}">${tag}</button>`)
+                    .join('');
+            })
+            .catch(() => {
+                suggestionsBox.innerHTML = '<div class="suggestion-empty">تعذر تحميل الاقتراحات</div>';
+            });
     }
 
     function addTag(tag) {
@@ -371,7 +327,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
         const encoded = selectedTags.map(tag => encodeURIComponent(tag)).join('|');
-        window.location.href = 'search-results.html?tags=' + encoded;
+        window.location.href = '/search?tags=' + encoded;
     }
 
     if (searchToggle) {
@@ -404,9 +360,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 e.preventDefault();
                 const value = this.value.trim();
                 if (value) {
-                    const matched = availableTags.find(tag => normalizeTag(tag) === normalizeTag(value));
+                    const matched = suggestionCache.find(item => normalizeTag(item.name) === normalizeTag(value));
                     if (matched) {
-                        addTag(matched);
+                        addTag(matched.name);
                         this.value = '';
                     }
                 }
@@ -424,9 +380,9 @@ document.addEventListener("DOMContentLoaded", function () {
             if (input) {
                 const value = input.value.trim();
                 if (value) {
-                    const matched = availableTags.find(tag => normalizeTag(tag) === normalizeTag(value));
+                    const matched = suggestionCache.find(item => normalizeTag(item.name) === normalizeTag(value));
                     if (matched) {
-                        addTag(matched);
+                        addTag(matched.name);
                         input.value = '';
                     }
                 }
@@ -462,52 +418,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    function renderSearchResults() {
-        const params = new URLSearchParams(window.location.search);
-        const rawTags = params.get('tags') || '';
-        const tags = rawTags ? rawTags.split('|').map(tag => decodeURIComponent(tag)) : [];
-        selectedTags = tags.slice();
-        if (searchResultsActiveTags) {
-            searchResultsActiveTags.innerHTML = tags.map(tag => `<span class="tag-chip selected-tag">${tag}</span>`).join('');
-        }
-        if (selectedTagsContainer) {
-            renderSelectedTags();
-        }
-        updateSelectedTagButtons();
-
-        if (!searchResultsGrid) return;
-
-        const results = searchItems.filter(item => item.tags.some(tag => tags.includes(tag)));
-        if (results.length === 0) {
-            if (searchNoResults) searchNoResults.style.display = 'block';
-            searchResultsGrid.innerHTML = '';
-            return;
-        }
-
-        if (searchNoResults) searchNoResults.style.display = 'none';
-        searchResultsGrid.innerHTML = results.map(item => `
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="news-card">
-                    <img src="img/top-news-1.jpg" alt="${item.title}">
-                    <div class="news-card-body">
-                        <span class="news-card-category">${item.category}</span>
-                        <a class="news-card-title" href="">${item.title}</a>
-                        <p class="news-card-text">${item.excerpt}</p>
-                        <span class="news-card-meta"><i class="far fa-clock"></i> ${item.date}</span>
-                    </div>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    if (window.location.pathname.endsWith('search-results.html')) {
-        renderSearchResults();
-    }
-
-    if (searchResultsActiveTags) {
-        renderSelectedTags();
-        updateSelectedTagButtons();
-    }
+    renderSelectedTags();
+    updateSelectedTagButtons();
 });
 
 })(jQuery);

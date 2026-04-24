@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ContactMessageController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Front\PublicCategoryController;
+use App\Http\Controllers\Front\TagSearchController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -46,4 +47,7 @@ Route::get('/gaza', [PublicCategoryController::class, 'gaza']);
 Route::get('/israeli-affairs', [PublicCategoryController::class, 'israeliAffairs']);
 Route::get('/arab-world', [PublicCategoryController::class, 'arabWorld']);
 Route::get('/palestine-news', [PublicCategoryController::class, 'palestineNews']);
-Route::view('/search-results', 'front.search-results');
+
+Route::get('/search', [TagSearchController::class, 'search'])->name('front.search');
+Route::get('/search-results', [TagSearchController::class, 'search']);
+Route::get('/tags/suggest', [TagSearchController::class, 'suggest'])->name('front.tags.suggest');
