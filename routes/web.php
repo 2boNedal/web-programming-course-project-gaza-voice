@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ContactMessageController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Front\PublicCategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -40,8 +41,9 @@ Route::view('/', 'front.home');
 Route::view('/login', 'front.login');
 Route::view('/contact', 'front.contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
-Route::view('/gaza', 'front.gaza');
-Route::view('/israeli-affairs', 'front.israeli-affairs');
-Route::view('/arab-world', 'front.arab-world');
-Route::view('/palestine-news', 'front.palestine-news');
+Route::get('/categories/{slug}', [PublicCategoryController::class, 'show'])->name('front.categories.show');
+Route::get('/gaza', [PublicCategoryController::class, 'gaza']);
+Route::get('/israeli-affairs', [PublicCategoryController::class, 'israeliAffairs']);
+Route::get('/arab-world', [PublicCategoryController::class, 'arabWorld']);
+Route::get('/palestine-news', [PublicCategoryController::class, 'palestineNews']);
 Route::view('/search-results', 'front.search-results');
