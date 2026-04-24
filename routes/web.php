@@ -1,6 +1,7 @@
 ﻿<?php
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\TagController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,6 +18,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->whereNumber('category')
         ->name('categories.force-delete');
     Route::resource('categories', CategoryController::class)->except(['show']);
+
+    Route::resource('tags', TagController::class)->except(['show']);
 });
 
 Route::view('/author', 'author.dashboard');
