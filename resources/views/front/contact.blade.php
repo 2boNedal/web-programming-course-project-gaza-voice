@@ -104,32 +104,45 @@
                         <p class="form-subtitle">
                             يرجى ملء النموذج أدناه وسيتم الرد عليك في أقرب وقت ممكن
                         </p>
-                        <form class="contact-form">
+                        @if (session('success'))
+                            <div class="alert alert-success">{{ session('success') }}</div>
+                        @endif
+
+                        <form class="contact-form" method="POST" action="{{ route('contact.store') }}">
+                            @csrf
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="name">الاسم الكامل <span class="required">*</span></label>
-                                    <input type="text" class="form-control" id="name" placeholder="أدخل اسمك الكامل"
-                                        required />
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        placeholder="أدخل اسمك الكامل" value="{{ old('name') }}" required />
+                                    @error('name')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="email">البريد الإلكتروني <span class="required">*</span></label>
-                                    <input type="email" class="form-control" id="email"
-                                        placeholder="أدخل بريدك الإلكتروني" required />
+                                    <input type="email" class="form-control" id="email" name="email"
+                                        placeholder="أدخل بريدك الإلكتروني" value="{{ old('email') }}" required />
+                                    @error('email')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="phone">رقم الهاتف</label>
-                                <input type="tel" class="form-control" id="phone" placeholder="أدخل رقم هاتفك" />
-                            </div>
-                            <div class="form-group">
                                 <label for="subject">الموضوع <span class="required">*</span></label>
-                                <input type="text" class="form-control" id="subject" placeholder="اختر موضوع الرسالة"
-                                    required />
+                                <input type="text" class="form-control" id="subject" name="subject"
+                                    placeholder="اختر موضوع الرسالة" value="{{ old('subject') }}" required />
+                                @error('subject')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="message">الرسالة <span class="required">*</span></label>
-                                <textarea class="form-control" id="message" rows="5" placeholder="اكتب رسالتك هنا..."
-                                    required></textarea>
+                                <textarea class="form-control" id="message" name="message" rows="5" placeholder="اكتب رسالتك هنا..."
+                                    required>{{ old('message') }}</textarea>
+                                @error('message')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                             <button type="submit" class="btn btn-submit">
                                 إرسال الرسالة
