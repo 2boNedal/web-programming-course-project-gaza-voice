@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ContactMessageController;
@@ -7,6 +7,17 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Front\PublicCategoryController;
 use App\Http\Controllers\Front\TagSearchController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Author\ArticleController;
+
+
+Route::prefix('author')->name('author.')->group(function () {
+
+    Route::get('/', function () {
+        return view('author.dashboard');
+    })->name('dashboard');
+Route::resource('articles', ArticleController::class)->except(['show']);
+});
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -37,8 +48,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->name('contact-messages.destroy');
 });
 
-Route::view('/author', 'author.dashboard');
-Route::view('/', 'front.home');
+
+
+
+
+
+
 Route::view('/login', 'front.login');
 Route::view('/contact', 'front.contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
