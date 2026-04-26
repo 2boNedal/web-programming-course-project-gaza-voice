@@ -3,20 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+
+use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
     public function index(): View
     {
-        $categories = DB::table('categories')
-            ->whereNull('deleted_at')
-            ->orderByDesc('id')
-            ->paginate(10);
+        $categories = Category::latest('id')->paginate(10);
 
         return view('admin.categories.index', compact('categories'));
     }
@@ -28,73 +26,36 @@ class CategoryController extends Controller
 
     public function store(StoreCategoryRequest $request): RedirectResponse
     {
-        DB::table('categories')->insert([
-            'name' => $request->validated('name'),
-            'slug' => $request->validated('slug'),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        Category::create($request->validated());
 
         return redirect()
             ->route('admin.categories.index')
             ->with('success', 'Category created successfully.');
     }
 
-    public function edit(int $category): View
+    public function edit(Category $category): View
     {
-        $categoryRow = DB::table('categories')
-            ->where('id', $category)
-            ->whereNull('deleted_at')
-            ->first();
-
-        abort_if(! $categoryRow, 404);
-
-        return view('admin.categories.edit', ['category' => $categoryRow]);
+        return view('admin.categories.edit', compact('category'));
     }
 
-    public function update(UpdateCategoryRequest $request, int $category): RedirectResponse
+    public function update(UpdateCategoryRequest $request, Category $category): RedirectResponse
     {
-        $categoryExists = DB::table('categories')
-            ->where('id', $category)
-            ->whereNull('deleted_at')
-            ->exists();
-
-        abort_if(! $categoryExists, 404);
-
-        DB::table('categories')
-            ->where('id', $category)
-            ->update([
-                'name' => $request->validated('name'),
-                'slug' => $request->validated('slug'),
-                'updated_at' => now(),
-            ]);
+        $category->update($request->validated());
 
         return redirect()
             ->route('admin.categories.index')
             ->with('success', 'Category updated successfully.');
     }
 
-    public function destroy(int $category): RedirectResponse
+    public function destroy(Category $category): RedirectResponse
     {
-        $categoryExists = DB::table('categories')
-            ->where('id', $category)
-            ->whereNull('deleted_at')
-            ->exists();
-
-        abort_if(! $categoryExists, 404);
-
-        if ($this->hasLinkedArticles($category)) {
+        if ($category->articles()->exists()) {
             return back()->withErrors([
                 'delete' => 'Category cannot be deleted because it has linked articles.',
             ]);
         }
 
-        DB::table('categories')
-            ->where('id', $category)
-            ->update([
-                'deleted_at' => now(),
-                'updated_at' => now(),
-            ]);
+        $category->delete();
 
         return redirect()
             ->route('admin.categories.index')
@@ -103,63 +64,36 @@ class CategoryController extends Controller
 
     public function trashed(): View
     {
-        $categories = DB::table('categories')
-            ->whereNotNull('deleted_at')
+        $categories = Category::onlyTrashed()
             ->orderByDesc('deleted_at')
             ->paginate(10);
 
         return view('admin.categories.trashed', compact('categories'));
     }
 
-    public function restore(int $category): RedirectResponse
+    public function restore(int $id): RedirectResponse
     {
-        $trashedExists = DB::table('categories')
-            ->where('id', $category)
-            ->whereNotNull('deleted_at')
-            ->exists();
-
-        abort_if(! $trashedExists, 404);
-
-        DB::table('categories')
-            ->where('id', $category)
-            ->update([
-                'deleted_at' => null,
-                'updated_at' => now(),
-            ]);
+        $category = Category::onlyTrashed()->findOrFail($id);
+        $category->restore();
 
         return redirect()
             ->route('admin.categories.trashed')
             ->with('success', 'Category restored successfully.');
     }
 
-    public function forceDelete(int $category): RedirectResponse
+    public function forceDelete(int $id): RedirectResponse
     {
-        $trashedExists = DB::table('categories')
-            ->where('id', $category)
-            ->whereNotNull('deleted_at')
-            ->exists();
+        $category = Category::onlyTrashed()->findOrFail($id);
 
-        abort_if(! $trashedExists, 404);
-
-        if ($this->hasLinkedArticles($category)) {
+        if ($category->articles()->exists()) {
             return back()->withErrors([
                 'delete' => 'Category cannot be permanently deleted because it has linked articles.',
             ]);
         }
 
-        DB::table('categories')
-            ->where('id', $category)
-            ->delete();
+        $category->forceDelete();
 
         return redirect()
             ->route('admin.categories.trashed')
             ->with('success', 'Category permanently deleted successfully.');
-    }
-
-    private function hasLinkedArticles(int $categoryId): bool
-    {
-        return DB::table('articles')
-            ->where('category_id', $categoryId)
-            ->exists();
-    }
 }
