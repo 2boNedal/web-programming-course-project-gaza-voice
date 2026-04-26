@@ -3,53 +3,79 @@
 namespace App\Http\Controllers\Author;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Article;
-use App\Models\Category;
-use App\Models\Tag;
-use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
-    public function index()
+    public function submit(Article $article)
     {
-        $articles = Article::where('user_id', auth()->id())->latest()->get();
-        return view('author.articles.index', compact('articles'));
-    }
+        if ($article->draft_origin !== 'author') {
+            abort(403, 'Unauthorized action.');
+        }
 
-    public function create()
-    {
-        $categories = Category::all();
-        $tags = Tag::all();
-        return view('author.articles.create', compact('categories', 'tags'));
-    }
+        if (!in_array($article->status, ['draft', 'needs_revision'])) {
+            abort(403, 'Article must be draft or needs_revision to be submitted.');
+        }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|max:255',
-            'content' => 'required',
-            'category_id' => 'required|exists:categories,id',
-            'tags' => 'required|array',
-            'cover_image' => 'required|image|mimes:jpg,jpeg,png,webp',
+        $article->update([
+            'status' => 'pending_review',
+            'submitted_at' => now()
         ]);
 
-        // رفع الصورة
-        $path = $request->file('cover_image')->store('articles', 'public');
+        return redirect()->back()->with('success', 'Article submitted for review.');
+    }
 
-        // حفظ المقال كمسودة (draft)
-        $article = Article::create([
-            'title' => $request->title,
-            'slug' => Str::slug($request->title) . '-' . time(),
-            'content' => $request->content,
-            'cover_image' => $path,
-            'category_id' => $request->category_id,
-            'user_id' => auth()->id(),
-            'status' => 'draft', // حسب المطلوب في المهمة
-        ]);
+    public function destroy(Article $article)
+    {
+        if ($article->status !== 'draft') {
+            abort(403, 'Only draft articles can be deleted.');
+        }
 
-        $article->tags()->attach($request->tags);
+        if ($article->draft_origin !== 'author') {
+            abort(403, 'Unauthorized action.');
+        }
 
-        return redirect()->route('author.articles.index')->with('success', 'تم حفظ المقال كمسودة بنجاح');
+        $article->delete();
+
+        return redirect()->back()->with('success', 'Article moved to trash.');
+    }
+
+    public function trashed()
+    {
+        $articles = Article::onlyTrashed()
+            ->where('draft_origin', 'author')
+            ->get();
+
+        return view('author.articles.trashed', compact('articles'));
+    }
+
+    public function restore($id)
+    {
+        $article = Article::onlyTrashed()->findOrFail($id);
+
+        if ($article->draft_origin !== 'author') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $article->restore();
+        
+        // Ensure it returns to draft status when restored from trash by author
+        $article->update(['status' => 'draft']);
+
+        return redirect()->back()->with('success', 'Article restored to draft.');
+    }
+
+    public function forceDelete($id)
+    {
+        $article = Article::onlyTrashed()->findOrFail($id);
+
+        if ($article->draft_origin !== 'author') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $article->forceDelete();
+
+        return redirect()->back()->with('success', 'Article permanently deleted.');
     }
 }
