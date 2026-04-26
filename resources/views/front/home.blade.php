@@ -70,8 +70,8 @@
                         <a href="/" class="nav-item nav-link active">الرئيسية</a>
                         <a href="/gaza" class="nav-item nav-link">غزة</a>
                         <a href="/israeli-affairs" class="nav-item nav-link">شؤون إسرائيلية</a>
-                        <a href="arab-world" class="nav-item nav-link">الوطن العربي</a>
-                        <a href="palestine-news" class="nav-item nav-link">أخبار فلسطين</a>
+                        <a href="/arab-world" class="nav-item nav-link">الوطن العربي</a>
+                        <a href="/palestine-news" class="nav-item nav-link">أخبار فلسطين</a>
                         <a href="/contact" class="nav-item nav-link">اتصل بنا</a>
                         <a href="#" class="nav-item nav-link nav-search-trigger" id="navSearchToggle"><i
                                 class="fas fa-search"></i></a>

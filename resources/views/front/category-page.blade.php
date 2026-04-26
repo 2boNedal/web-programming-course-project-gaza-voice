@@ -103,17 +103,14 @@
                         <div class="news-card">
                             <img src="{{ $article->cover_image ? asset($article->cover_image) : '/front/img/top-news-1.jpg' }}" alt="News Card" />
                             <div class="news-card-body">
-                                @php
-                                    $tags = $articleTags[$article->id] ?? [];
-                                @endphp
-                                @if (count($tags) > 0)
-                                    @foreach ($tags as $tag)
-                                        <span class="news-card-category">{{ $tag }}</span>
+                                @if ($article->tags->count() > 0)
+                                    @foreach ($article->tags as $tag)
+                                        <span class="news-card-category">{{ $tag->name }}</span>
                                     @endforeach
                                 @else
                                     <span class="news-card-category">بدون وسوم</span>
                                 @endif
-                                <a class="news-card-title" href="#">{{ $article->title }}</a>
+                                <a class="news-card-title" href="{{ route('front.articles.show', $article->slug) }}">{{ $article->title }}</a>
                                 <p class="news-card-text">{{ \Illuminate\Support\Str::limit(strip_tags($article->body), 120) }}</p>
                                 <span class="news-card-meta"><i class="far fa-clock"></i> {{ \Carbon\Carbon::parse($article->published_at)->format('d-M-Y') }}</span>
                             </div>
