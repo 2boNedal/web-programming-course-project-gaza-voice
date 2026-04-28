@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 
 <head>
     <meta charset="utf-8" />
@@ -8,24 +8,19 @@
     <meta content="Bootstrap Ecommerce Template" name="keywords" />
     <meta content="Bootstrap Ecommerce Template Free Download" name="description" />
 
-    <!-- Favicon -->
     <link href="/front/img/favicon.ico" rel="icon" />
 
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap" rel="stylesheet" />
 
-    <!-- CSS Libraries -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet" />
     <link href="/front/lib/slick/slick.css" rel="stylesheet" />
     <link href="/front/lib/slick/slick-theme.css" rel="stylesheet" />
 
-    <!-- Template Stylesheet -->
     <link href="/front/css/style.css" rel="stylesheet" />
 </head>
 
-<body>
-    <!-- Top Header Start -->
+<body class="public-rtl">
     <div class="top-header">
         <div class="container">
             <div class="row align-items-center">
@@ -51,9 +46,7 @@
             </div>
         </div>
     </div>
-    <!-- Top Header End -->
 
-    <!-- Header Start -->
     <div class="header">
         <div class="container">
             <nav class="navbar navbar-expand-md bg-dark navbar-dark">
@@ -68,33 +61,29 @@
                 <div class="collapse navbar-collapse justify-content-center" id="navbarCollapse">
                     <div class="navbar-nav">
                         <a href="/" class="nav-item nav-link">الرئيسية</a>
-                        <a href="/gaza" class="nav-item nav-link">غزة</a>
-                        <a href="/israeli-affairs" class="nav-item nav-link">شؤون إسرائيلية</a>
-                        <a href="/arab-world" class="nav-item nav-link">الوطن العربي</a>
-                        <a href="/palestine-news" class="nav-item nav-link">أخبار فلسطين</a>
+                        @foreach (($navbarCategories ?? collect()) as $navbarCategory)
+                            <a href="{{ route('categories.show', $navbarCategory->slug) }}" class="nav-item nav-link">
+                                {{ $navbarCategory->name }}
+                            </a>
+                        @endforeach
                         <a href="/contact" class="nav-item nav-link active">اتصل بنا</a>
                     </div>
                 </div>
             </nav>
         </div>
     </div>
-    <!-- Header End -->
 
-    <!-- Category Hero Start -->
     <div class="category-hero">
         <div class="container-fluid">
             <div class="category-hero-content">
                 <h1 class="category-title">اتصل بنا</h1>
                 <p class="category-subtitle">
-                    نرحب بجميع الاستفسارات والآراء والاقتراحات. يمكنك التواصل معنا من
-                    خلال النموذج أدناه
+                    نرحب بجميع الاستفسارات والآراء والاقتراحات. يمكنك التواصل معنا من خلال النموذج أدناه
                 </p>
             </div>
         </div>
     </div>
-    <!-- Category Hero End -->
 
-    <!-- Contact Section Start -->
     <div class="contact-page-section">
         <div class="container">
             <div class="row">
@@ -104,32 +93,51 @@
                         <p class="form-subtitle">
                             يرجى ملء النموذج أدناه وسيتم الرد عليك في أقرب وقت ممكن
                         </p>
-                        <form class="contact-form">
+
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
+                        <form class="contact-form" action="{{ route('contact.store') }}" method="POST">
+                            @csrf
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="name">الاسم الكامل <span class="required">*</span></label>
-                                    <input type="text" class="form-control" id="name" placeholder="أدخل اسمك الكامل"
-                                        required />
+                                    <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                        id="name" name="name" value="{{ old('name') }}"
+                                        placeholder="أدخل اسمك الكامل" required />
+                                    @error('name')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="email">البريد الإلكتروني <span class="required">*</span></label>
-                                    <input type="email" class="form-control" id="email"
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                        id="email" name="email" value="{{ old('email') }}"
                                         placeholder="أدخل بريدك الإلكتروني" required />
+                                    @error('email')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="phone">رقم الهاتف</label>
-                                <input type="tel" class="form-control" id="phone" placeholder="أدخل رقم هاتفك" />
-                            </div>
-                            <div class="form-group">
                                 <label for="subject">الموضوع <span class="required">*</span></label>
-                                <input type="text" class="form-control" id="subject" placeholder="اختر موضوع الرسالة"
-                                    required />
+                                <input type="text" class="form-control @error('subject') is-invalid @enderror"
+                                    id="subject" name="subject" value="{{ old('subject') }}"
+                                    placeholder="اختر موضوع الرسالة" required />
+                                @error('subject')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="message">الرسالة <span class="required">*</span></label>
-                                <textarea class="form-control" id="message" rows="5" placeholder="اكتب رسالتك هنا..."
-                                    required></textarea>
+                                <textarea class="form-control @error('message') is-invalid @enderror" id="message" name="message" rows="5"
+                                    placeholder="اكتب رسالتك هنا..." required>{{ old('message') }}</textarea>
+                                @error('message')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <button type="submit" class="btn btn-submit">
                                 إرسال الرسالة
@@ -148,7 +156,7 @@
                             </div>
                             <div class="info-content">
                                 <h4>الموقع</h4>
-                                <p>غزة - شارع الشجاعية<br />الأراضي الفلسطينية</p>
+                                <p>غزة - شارع الشجاعية<br />خانيونس - جنور  دوار الأقصى</p>
                             </div>
                         </div>
 
@@ -158,7 +166,7 @@
                             </div>
                             <div class="info-content">
                                 <h4>الهاتف</h4>
-                                <p>+970-8-2848000<br />+970-8-2848001</p>
+                                <p>+972 59-347-8906<br />+972 59-261-3778</p>
                             </div>
                         </div>
 
@@ -168,7 +176,7 @@
                             </div>
                             <div class="info-content">
                                 <h4>البريد الإلكتروني</h4>
-                                <p>info@news24.ps<br />contact@news24.ps</p>
+                                <p>info@gaza.ps</p>
                             </div>
                         </div>
 
@@ -197,9 +205,7 @@
             </div>
         </div>
     </div>
-    <!-- Contact Section End -->
 
-    <!-- Footer Bottom Start -->
     <div class="footer-bottom">
         <div class="container">
             <div class="row align-items-center">
@@ -214,18 +220,14 @@
             </div>
         </div>
     </div>
-    <!-- Footer Bottom End -->
 
-    <!-- Back to Top -->
     <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 
-    <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="/front/lib/easing/easing.min.js"></script>
     <script src="/front/lib/slick/slick.min.js"></script>
 
-    <!-- Template Javascript -->
     <script src="js/main.js"></script>
 </body>
 

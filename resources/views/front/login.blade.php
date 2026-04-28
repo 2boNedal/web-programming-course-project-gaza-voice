@@ -134,7 +134,7 @@
         .btn-login {
             width: 100%;
             height: 50px;
-            background: #E47A2E;
+            background: #c00c03;
             border: none;
             border-radius: 5px;
             color: #ffffff;
@@ -145,7 +145,7 @@
         }
 
         .btn-login:hover {
-            background: #d66a26;
+            background: #e80a07;
         }
 
         .remember-me {
@@ -197,14 +197,16 @@
         <div class="login-side">
             <div class="login-box">
                 <div class="site-name">وكالة صوت غزة الإخبارية</div>
-                <form id="loginForm">
+                <form id="loginForm" action="/login" method="POST">
+                    @csrf
                     <div class="form-group">
-                        <input type="email" class="form-control" id="email" placeholder="البريد الإلكتروني" required />
+                        <input type="email" class="form-control" id="email" name="email" placeholder="البريد الإلكتروني"
+                            required />
                     </div>
                     <div class="form-group">
                         <div class="input-group">
-                            <input type="password" class="form-control" id="password" placeholder="كلمة المرور"
-                                required />
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="كلمة المرور" required />
                             <div class="input-group-append">
                                 <button type="button" id="togglePassword">
                                     <i class="fas fa-eye"></i>
@@ -213,13 +215,13 @@
                         </div>
                     </div>
                     <div class="remember-me">
-                        <input type="checkbox" id="rememberMe" />
+                        <input type="checkbox" id="rememberMe" name="remember" />
                         <label for="rememberMe">تذكرني</label>
                     </div>
                     <button type="submit" class="btn-login">تسجيل الدخول</button>
                 </form>
                 <div class="back-home">
-                    <a href="index.html">العودة إلى الصفحة الرئيسية</a>
+                    <a href="/">العودة إلى الصفحة الرئيسية</a>
                 </div>
             </div>
         </div>
@@ -244,12 +246,6 @@
                     passwordInput.attr('type', 'password');
                     icon.removeClass('fa-eye-slash').addClass('fa-eye');
                 }
-            });
-
-            $('#loginForm').submit(function (e) {
-                e.preventDefault();
-                // Placeholder for login logic
-                alert('Login functionality not implemented yet.');
             });
         });
     </script>

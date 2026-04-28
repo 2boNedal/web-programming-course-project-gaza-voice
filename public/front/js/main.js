@@ -82,80 +82,91 @@
     });
 
     // Latest News Ticker Rotation
-    var latestNewsHeadlines = [
-        'تطورات جديدة في السياسة الإقليمية: توقعات حول المستجدات القادمة',
-        'الأسواق العالمية تشهد تقلبات كبيرة مع اقتراب آخر أعمال السنة المالية',
-        'قطاع الصحة يحذر من موجة جديدة وينصح بالالتزام بالإجراءات الوقائية',
-        'مؤتمر دولي يبحث سبل تحقيق السلام والاستقرار في منطقة الشرق الأوسط',
-        'انطلاق فعاليات ثقافية كبرى تجمع الفنانين والمثقفين من العالم العربي'
+    const staticTickerHeadlines = [
+        '\u062a\u0637\u0648\u0631\u0627\u062a \u062c\u062f\u064a\u062f\u0629 \u0641\u064a \u0627\u0644\u0633\u0627\u062d\u0629 \u0627\u0644\u0625\u0642\u0644\u064a\u0645\u064a\u0629 \u0648\u0633\u0637 \u0645\u062a\u0627\u0628\u0639\u0629 \u0645\u0633\u062a\u0645\u0631\u0629',
+        '\u0627\u0644\u0623\u0633\u0648\u0627\u0642 \u0627\u0644\u0639\u0627\u0644\u0645\u064a\u0629 \u062a\u062a\u0631\u0642\u0628 \u0642\u0631\u0627\u0631\u0627\u062a \u0627\u0642\u062a\u0635\u0627\u062f\u064a\u0629 \u0645\u0624\u062b\u0631\u0629 \u062e\u0644\u0627\u0644 \u0627\u0644\u0633\u0627\u0639\u0627\u062a \u0627\u0644\u0645\u0642\u0628\u0644\u0629',
+        '\u0627\u0644\u0642\u0637\u0627\u0639 \u0627\u0644\u0635\u062d\u064a \u064a\u062f\u0639\u0648 \u0625\u0644\u0649 \u0627\u0644\u0627\u0644\u062a\u0632\u0627\u0645 \u0628\u0627\u0644\u0625\u062c\u0631\u0627\u0621\u0627\u062a \u0627\u0644\u0648\u0642\u0627\u0626\u064a\u0629 \u0641\u064a \u0627\u0644\u0645\u0646\u0627\u0637\u0642 \u0627\u0644\u0645\u0632\u062f\u062d\u0645\u0629',
+        '\u0645\u0628\u0627\u062d\u062b\u0627\u062a \u062f\u0648\u0644\u064a\u0629 \u062c\u062f\u064a\u062f\u0629 \u0644\u0628\u062d\u062b \u0633\u0628\u0644 \u0627\u0644\u062a\u0647\u062f\u0626\u0629 \u0648\u0627\u0644\u0627\u0633\u062a\u0642\u0631\u0627\u0631 \u0641\u064a \u0627\u0644\u0645\u0646\u0637\u0642\u0629',
+        '\u0641\u0639\u0627\u0644\u064a\u0627\u062a \u062b\u0642\u0627\u0641\u064a\u0629 \u0639\u0631\u0628\u064a\u0629 \u062a\u062c\u0645\u0639 \u0643\u062a\u0651\u0627\u0628\u0627\u064b \u0648\u0641\u0646\u0627\u0646\u064a\u0646 \u0645\u0646 \u0639\u062f\u0629 \u062f\u0648\u0644'
     ];
-    var headlineIndex = 0;
-
-    function rotateLatestNews() {
-        $('.ticker-headline').fadeOut(300, function() {
-            $(this).text(latestNewsHeadlines[headlineIndex]).fadeIn(300);
-        });
-        headlineIndex = (headlineIndex + 1) % latestNewsHeadlines.length;
+    const $tickerHeadline = $('.ticker-headline');
+    const bannerTickerItems = Array.isArray(window.breakingNewsItems)
+        ? window.breakingNewsItems.filter(item => typeof item === 'string' && item.trim() !== '')
+        : [];
+    if ($tickerHeadline.length) {
+        if (bannerTickerItems.length === 1) {
+            $tickerHeadline.text(bannerTickerItems[0]);
+        } else if (bannerTickerItems.length > 1) {
+            let bannerTickerIndex = 0;
+            setInterval(function () {
+                bannerTickerIndex = (bannerTickerIndex + 1) % bannerTickerItems.length;
+                $tickerHeadline.fadeOut(250, function () {
+                    $(this).text(bannerTickerItems[bannerTickerIndex]).fadeIn(250);
+                });
+            }, 5000);
+        } else if ($tickerHeadline.data('source') !== 'banners') {
+            let headlineIndex = 0;
+            setInterval(function () {
+                headlineIndex = (headlineIndex + 1) % staticTickerHeadlines.length;
+                $tickerHeadline.fadeOut(250, function () {
+                    $(this).text(staticTickerHeadlines[headlineIndex]).fadeIn(250);
+                });
+            }, 6000);
+        }
     }
 
-    // Rotate news every 6 seconds
-    setInterval(rotateLatestNews, 6000);
-
 document.addEventListener("DOMContentLoaded", function () {
-    const weatherData = {
+        const weatherData = {
         gaza: {
-            name: "غزة",
-            today: { temp: "28°", status: "مشمس" },
-            tomorrow: { temp: "25°", status: "غائم جزئيًا" },
-            after: { temp: "23°", status: "أمطار خفيفة" }
+            name: "\u063a\u0632\u0629",
+            today: { temp: "28\u00B0", status: "\u0645\u0634\u0645\u0633" },
+            tomorrow: { temp: "25\u00B0", status: "\u063a\u0627\u0626\u0645 \u062c\u0632\u0626\u064a\u0627\u064b" },
+            after: { temp: "23\u00B0", status: "\u0623\u0645\u0637\u0627\u0631 \u062e\u0641\u064a\u0641\u0629" }
         },
         jerusalem: {
-            name: "القدس",
-            today: { temp: "22°", status: "غائم" },
-            tomorrow: { temp: "20°", status: "مشمس" },
-            after: { temp: "19°", status: "بارد" }
+            name: "\u0627\u0644\u0642\u062f\u0633",
+            today: { temp: "22\u00B0", status: "\u063a\u0627\u0626\u0645" },
+            tomorrow: { temp: "20\u00B0", status: "\u0645\u0634\u0645\u0633" },
+            after: { temp: "19\u00B0", status: "\u0628\u0627\u0631\u062f" }
         },
         ramallah: {
-            name: "رام الله",
-            today: { temp: "21°", status: "غائم جزئيًا" },
-            tomorrow: { temp: "19°", status: "أمطار خفيفة" },
-            after: { temp: "18°", status: "بارد" }
+            name: "\u0631\u0627\u0645 \u0627\u0644\u0644\u0647",
+            today: { temp: "21\u00B0", status: "\u063a\u0627\u0626\u0645 \u062c\u0632\u0626\u064a\u0627\u064b" },
+            tomorrow: { temp: "19\u00B0", status: "\u0623\u0645\u0637\u0627\u0631 \u062e\u0641\u064a\u0641\u0629" },
+            after: { temp: "18\u00B0", status: "\u0628\u0627\u0631\u062f" }
         },
         bethlehem: {
-            name: "بيت لحم",
-            today: { temp: "20°", status: "مشمس" },
-            tomorrow: { temp: "18°", status: "غائم" },
-            after: { temp: "17°", status: "ممطر" }
+            name: "\u0628\u064a\u062a \u0644\u062d\u0645",
+            today: { temp: "20\u00B0", status: "\u0645\u0634\u0645\u0633" },
+            tomorrow: { temp: "18\u00B0", status: "\u063a\u0627\u0626\u0645" },
+            after: { temp: "17\u00B0", status: "\u0645\u0645\u0637\u0631" }
         },
         hebron: {
-            name: "الخليل",
-            today: { temp: "19°", status: "بارد" },
-            tomorrow: { temp: "18°", status: "غائم" },
-            after: { temp: "16°", status: "ممطر" }
+            name: "\u0627\u0644\u062e\u0644\u064a\u0644",
+            today: { temp: "19\u00B0", status: "\u0628\u0627\u0631\u062f" },
+            tomorrow: { temp: "18\u00B0", status: "\u063a\u0627\u0626\u0645" },
+            after: { temp: "16\u00B0", status: "\u0645\u0645\u0637\u0631" }
         },
         jenin: {
-            name: "جنين",
-            today: { temp: "24°", status: "مشمس" },
-            tomorrow: { temp: "22°", status: "غائم جزئيًا" },
-            after: { temp: "20°", status: "أمطار خفيفة" }
+            name: "\u062c\u0646\u064a\u0646",
+            today: { temp: "24\u00B0", status: "\u0645\u0634\u0645\u0633" },
+            tomorrow: { temp: "22\u00B0", status: "\u063a\u0627\u0626\u0645 \u062c\u0632\u0626\u064a\u0627\u064b" },
+            after: { temp: "20\u00B0", status: "\u0623\u0645\u0637\u0627\u0631 \u062e\u0641\u064a\u0641\u0629" }
         },
         nablus: {
-            name: "نابلس",
-            today: { temp: "23°", status: "مشمس" },
-            tomorrow: { temp: "21°", status: "غائم" },
-            after: { temp: "19°", status: "بارد" }
+            name: "\u0646\u0627\u0628\u0644\u0633",
+            today: { temp: "23\u00B0", status: "\u0645\u0634\u0645\u0633" },
+            tomorrow: { temp: "21\u00B0", status: "\u063a\u0627\u0626\u0645" },
+            after: { temp: "19\u00B0", status: "\u0628\u0627\u0631\u062f" }
         }
     };
-
     const currencyData = {
-        usd: { name: "الدولار الأمريكي", buy: "3.62", sell: "3.66" },
-        eur: { name: "اليورو", buy: "3.95", sell: "4.01" },
-        gbp: { name: "الجنيه الإسترليني", buy: "4.58", sell: "4.66" },
-        jod: { name: "الدينار الأردني", buy: "5.08", sell: "5.14" },
-        egp: { name: "الجنيه المصري", buy: "0.11", sell: "0.13" }
-    };
-
-    const weatherTrigger = document.getElementById("weatherTrigger");
+        usd: { name: "\u0627\u0644\u062f\u0648\u0644\u0627\u0631 \u0627\u0644\u0623\u0645\u0631\u064a\u0643\u064a", buy: "3.62", sell: "3.66" },
+        eur: { name: "\u0627\u0644\u064a\u0648\u0631\u0648", buy: "3.95", sell: "4.01" },
+        gbp: { name: "\u0627\u0644\u062c\u0646\u064a\u0647 \u0627\u0644\u0625\u0633\u062a\u0631\u0644\u064a\u0646\u064a", buy: "4.58", sell: "4.66" },
+        jod: { name: "\u0627\u0644\u062f\u064a\u0646\u0627\u0631 \u0627\u0644\u0623\u0631\u062f\u0646\u064a", buy: "5.08", sell: "5.14" },
+        egp: { name: "\u0627\u0644\u062c\u0646\u064a\u0647 \u0627\u0644\u0645\u0635\u0631\u064a", buy: "0.11", sell: "0.13" }
+    };    const weatherTrigger = document.getElementById("weatherTrigger");
     const weatherDropdown = document.getElementById("weatherDropdown");
     const weatherLocation = document.getElementById("weatherLocation");
 
@@ -216,22 +227,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    const availableTags = [
-        'غزة',
-        'فلسطين',
-        'اقتصاد',
-        'تكنولوجيا',
-        'صحة',
-        'ثقافة',
-        'رياضة',
-        'تعليم',
-        'حقوق الإنسان',
-        'الوطن العربي',
-        'شؤون إسرائيلية',
-        'دول عربية'
-    ];
+    const availableTags = Array.from(document.querySelectorAll('.tag-chip[data-tag]')).map(tag => ({
+        id: tag.dataset.tagId || null,
+        name: tag.dataset.tag
+    }));
 
-    let selectedTags = [];
+    let selectedTags = Array.isArray(window.initialSelectedTags) ? window.initialSelectedTags.slice() : [];
+    let currentSuggestions = [];
     const searchPanel = document.getElementById('navSearchPanel');
     const searchToggle = document.getElementById('navSearchToggle');
     const searchPanelClose = document.getElementById('searchPanelClose');
@@ -239,69 +241,23 @@ document.addEventListener("DOMContentLoaded", function () {
     const suggestionsBox = document.getElementById('tagSuggestions');
     const selectedTagsContainer = document.getElementById('selectedSearchTags');
     const searchResultsActiveTags = document.getElementById('searchResultsActiveTags');
-    const searchResultsGrid = document.getElementById('searchResultsGrid');
-    const searchNoResults = document.getElementById('searchNoResults');
-
-    const searchItems = [
-        {
-            title: 'مساعدات طبية عاجلة تصل إلى غزة لدعم المستشفيات المحلية',
-            excerpt: 'تصل شحنات المساعدات الطبية إلى مستشفيات غزة التي تعمل على استيعاب حالات جديدة.',
-            category: 'غزة',
-            date: '08-Apr-2026',
-            tags: ['غزة', 'صحة']
-        },
-        {
-            title: 'اقتصاد غزة في مواجهة التحديات: حلول محلية ودعم خارجي',
-            excerpt: 'تركز التقارير على سبل دعم المشاريع الصغيرة وتحفيز النمو الاقتصادي في القطاع.',
-            category: 'اقتصاد',
-            date: '07-Apr-2026',
-            tags: ['غزة', 'اقتصاد']
-        },
-        {
-            title: 'قمة عربية جديدة للمبادرات الاقتصادية والاجتماعية',
-            excerpt: 'تناقش القمة مبادرات لتعزيز التعاون الاقتصادي وبناء شبكات دعم مجتمعية في الوطن العربي.',
-            category: 'الوطن العربي',
-            date: '06-Apr-2026',
-            tags: ['الوطن العربي', 'اقتصاد', 'دول عربية']
-        },
-        {
-            title: 'أحدث تطورات شؤون إسرائيلية وتأثيرها على المشهد الإقليمي',
-            excerpt: 'تحليل سياسي لمشروع القرار الحكومي وتأثيره على العلاقات مع الجوار.',
-            category: 'شؤون إسرائيلية',
-            date: '05-Apr-2026',
-            tags: ['شؤون إسرائيلية', 'الوطن العربي']
-        },
-        {
-            title: 'مبادرة تعليمية فلسطينية لدعم الطلاب في المدارس المحلية',
-            excerpt: 'عرض لأبرز البرامج التعليمية التي تهدف إلى تعزيز المعرفة وتطوير المهارات.',
-            category: 'فلسطين',
-            date: '04-Apr-2026',
-            tags: ['فلسطين', 'تعليم']
-        },
-        {
-            title: 'تكنولوجيا ذكية تحسن خدمات الطوارئ في قطاع غزة',
-            excerpt: 'مشروع حديث يعتمد على تقنيات ذكية لتحسين الاستجابة الطبية في المناطق العاجلة.',
-            category: 'تكنولوجيا',
-            date: '03-Apr-2026',
-            tags: ['تكنولوجيا', 'صحة']
-        },
-        {
-            title: 'أبطال رياضيون فلسطينيون يحققون إنجازات دولية',
-            excerpt: 'تسلط الأضواء على النجاحات الرياضية وتطور المشهد الرياضي المحلي.',
-            category: 'رياضة',
-            date: '02-Apr-2026',
-            tags: ['رياضة', 'فلسطين']
-        }
-    ];
 
     function normalizeTag(text) {
         return text.trim().toLowerCase();
     }
 
+    function tagNameExists(name) {
+        return availableTags.some(tag => normalizeTag(tag.name) === normalizeTag(name));
+    }
+
+    function findTagByName(name) {
+        return availableTags.find(tag => normalizeTag(tag.name) === normalizeTag(name)) || null;
+    }
+
     function updateSelectedTagButtons() {
         document.querySelectorAll('.tag-chip').forEach(button => {
             const tag = button.dataset.tag;
-            if (selectedTags.includes(tag)) {
+            if (selectedTags.some(selectedTag => normalizeTag(selectedTag.name) === normalizeTag(tag))) {
                 button.classList.add('selected');
             } else {
                 button.classList.remove('selected');
@@ -310,43 +266,65 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function renderSelectedTags() {
-        if (!selectedTagsContainer) return;
-        selectedTagsContainer.innerHTML = selectedTags.map(tag => {
-            return `<span class="tag-chip selected-tag" data-tag="${tag}">${tag}<i class="fas fa-times"></i></span>`;
-        }).join('');
+        if (selectedTagsContainer) {
+            selectedTagsContainer.innerHTML = selectedTags.map(tag => {
+                return `<span class="tag-chip selected-tag" data-tag="${tag.name}">${tag.name}<i class="fas fa-times"></i></span>`;
+            }).join('');
+        }
+
+        if (searchResultsActiveTags) {
+            searchResultsActiveTags.innerHTML = selectedTags.map(tag => `<span class="tag-chip selected-tag">${tag.name}</span>`).join('');
+        }
     }
 
     function renderSuggestions(filter) {
         if (!suggestionsBox) return;
-        const query = (filter || '').trim().toLowerCase();
-        const matches = availableTags.filter(tag => {
-            const normalizedTag = normalizeTag(tag);
-            return !selectedTags.includes(tag) && (!query || normalizedTag.includes(query));
-        });
+        const query = (filter || '').trim();
 
         if (!query) {
+            currentSuggestions = [];
             suggestionsBox.innerHTML = '';
             return;
         }
 
-        if (matches.length === 0) {
-            suggestionsBox.innerHTML = '<div class="suggestion-empty">لا توجد وسوم مطابقة</div>';
-            return;
-        }
+        fetch('/tags/suggest?q=' + encodeURIComponent(query))
+            .then(response => response.ok ? response.json() : [])
+            .then(matches => {
+                currentSuggestions = Array.isArray(matches) ? matches : [];
 
-        suggestionsBox.innerHTML = matches.slice(0, 6).map(tag => `<button type="button" class="suggestion-item" data-tag="${tag}">${tag}</button>`).join('');
+                const filteredMatches = currentSuggestions.filter(tag => {
+                    return !selectedTags.some(selectedTag => normalizeTag(selectedTag.name) === normalizeTag(tag.name));
+                });
+
+                if (filteredMatches.length === 0) {
+                    suggestionsBox.innerHTML = '<div class="suggestion-empty">\u0644\u0627 \u062a\u0648\u062c\u062f \u0648\u0633\u0648\u0645 \u0645\u0637\u0627\u0628\u0642\u0629</div>';
+                    return;
+                }
+
+                suggestionsBox.innerHTML = filteredMatches.slice(0, 6).map(tag => {
+                    return `<button type="button" class="suggestion-item" data-tag="${tag.name}" data-tag-id="${tag.id}">${tag.name}</button>`;
+                }).join('');
+            })
+            .catch(() => {
+                currentSuggestions = [];
+                suggestionsBox.innerHTML = '<div class="suggestion-empty">\u0644\u0627 \u062a\u0648\u062c\u062f \u0648\u0633\u0648\u0645 \u0645\u0637\u0627\u0628\u0642\u0629</div>';
+            });
     }
 
     function addTag(tag) {
-        if (!tag || selectedTags.includes(tag)) return;
-        selectedTags.push(tag);
+        const tagObject = typeof tag === 'string' ? findTagByName(tag) || { id: null, name: tag } : tag;
+
+        if (!tagObject || !tagObject.name || !tagNameExists(tagObject.name)) return;
+        if (selectedTags.some(existing => normalizeTag(existing.name) === normalizeTag(tagObject.name))) return;
+
+        selectedTags.push({ id: tagObject.id || null, name: tagObject.name });
         renderSelectedTags();
         updateSelectedTagButtons();
         renderSuggestions(searchInput ? searchInput.value : '');
     }
 
     function removeTag(tag) {
-        selectedTags = selectedTags.filter(existing => existing !== tag);
+        selectedTags = selectedTags.filter(existing => normalizeTag(existing.name) !== normalizeTag(tag));
         renderSelectedTags();
         updateSelectedTagButtons();
         renderSuggestions(searchInput ? searchInput.value : '');
@@ -370,8 +348,10 @@ document.addEventListener("DOMContentLoaded", function () {
         if (selectedTags.length === 0) {
             return;
         }
-        const encoded = selectedTags.map(tag => encodeURIComponent(tag)).join('|');
-        window.location.href = 'search-results.html?tags=' + encoded;
+
+        const params = new URLSearchParams();
+        selectedTags.forEach(tag => params.append('tags[]', tag.name));
+        window.location.href = '/search?' + params.toString();
     }
 
     if (searchToggle) {
@@ -404,7 +384,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 e.preventDefault();
                 const value = this.value.trim();
                 if (value) {
-                    const matched = availableTags.find(tag => normalizeTag(tag) === normalizeTag(value));
+                    const matched = currentSuggestions.find(tag => normalizeTag(tag.name) === normalizeTag(value)) || findTagByName(value);
                     if (matched) {
                         addTag(matched);
                         this.value = '';
@@ -424,7 +404,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (input) {
                 const value = input.value.trim();
                 if (value) {
-                    const matched = availableTags.find(tag => normalizeTag(tag) === normalizeTag(value));
+                    const matched = currentSuggestions.find(tag => normalizeTag(tag.name) === normalizeTag(value)) || findTagByName(value);
                     if (matched) {
                         addTag(matched);
                         input.value = '';
@@ -437,7 +417,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    document.addEventListener('click', function (event) {
+document.addEventListener('click', function (event) {
         if (suggestionsBox && !suggestionsBox.contains(event.target) && searchInput !== event.target) {
             suggestionsBox.innerHTML = '';
         }
@@ -446,69 +426,33 @@ document.addEventListener("DOMContentLoaded", function () {
     document.addEventListener('click', function (event) {
         const target = event.target;
         if (target.classList.contains('tag-chip') && target.dataset.tag && !target.classList.contains('selected-tag')) {
-            addTag(target.dataset.tag);
+            addTag({
+                id: target.dataset.tagId || null,
+                name: target.dataset.tag
+            });
         }
 
         if (target.classList.contains('suggestion-item') && target.dataset.tag) {
-            addTag(target.dataset.tag);
+            addTag({
+                id: target.dataset.tagId || null,
+                name: target.dataset.tag
+            });
             if (searchInput) {
                 searchInput.value = '';
             }
             renderSuggestions('');
         }
 
-        if (target.closest('.selected-tag') && target.closest('.selected-tag').dataset.tag) {
-            removeTag(target.closest('.selected-tag').dataset.tag);
+        const selectedTag = target.closest('.selected-tag');
+        if (selectedTag && selectedTag.dataset.tag) {
+            removeTag(selectedTag.dataset.tag);
         }
     });
 
-    function renderSearchResults() {
-        const params = new URLSearchParams(window.location.search);
-        const rawTags = params.get('tags') || '';
-        const tags = rawTags ? rawTags.split('|').map(tag => decodeURIComponent(tag)) : [];
-        selectedTags = tags.slice();
-        if (searchResultsActiveTags) {
-            searchResultsActiveTags.innerHTML = tags.map(tag => `<span class="tag-chip selected-tag">${tag}</span>`).join('');
-        }
-        if (selectedTagsContainer) {
-            renderSelectedTags();
-        }
-        updateSelectedTagButtons();
-
-        if (!searchResultsGrid) return;
-
-        const results = searchItems.filter(item => item.tags.some(tag => tags.includes(tag)));
-        if (results.length === 0) {
-            if (searchNoResults) searchNoResults.style.display = 'block';
-            searchResultsGrid.innerHTML = '';
-            return;
-        }
-
-        if (searchNoResults) searchNoResults.style.display = 'none';
-        searchResultsGrid.innerHTML = results.map(item => `
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="news-card">
-                    <img src="img/top-news-1.jpg" alt="${item.title}">
-                    <div class="news-card-body">
-                        <span class="news-card-category">${item.category}</span>
-                        <a class="news-card-title" href="">${item.title}</a>
-                        <p class="news-card-text">${item.excerpt}</p>
-                        <span class="news-card-meta"><i class="far fa-clock"></i> ${item.date}</span>
-                    </div>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    if (window.location.pathname.endsWith('search-results.html')) {
-        renderSearchResults();
-    }
-
-    if (searchResultsActiveTags) {
-        renderSelectedTags();
-        updateSelectedTagButtons();
-    }
+    renderSelectedTags();
+    updateSelectedTagButtons();
 });
 
 })(jQuery);
+
 

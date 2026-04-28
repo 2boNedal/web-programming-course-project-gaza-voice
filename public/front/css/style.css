@@ -119,42 +119,53 @@ button.btn:hover {
 /********* Top Header CSS *********/
 /**********************************/
 .top-header {
-    padding: 15px 0;
+    padding: 18px 0;
     background: #ffffff;
+    border-bottom: 1px solid #eceff3;
 }
 
 .top-header .logo {
     text-align: center;
+    flex-shrink: 0;
 }
 
 .top-header .logo a img {
-    max-width: 100%;
-    max-height: 60px;
+    max-width: 200%;
+    max-height: 80px;
+    width: auto;
+    display: block;
 }
 
 .top-header .social {
     display: flex;
     align-items: center;
+    gap: 8px;
 }
 
 .top-header .social a {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    padding: 1px 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
     text-align: center;
-    font-size: 22px;
-    border: 1px solid #353535;
-    margin: 0 2px;
+    font-size: 18px;
+    border: 1px solid #d8dde6;
+    border-radius: 50%;
+    margin: 0;
+    background: #ffffff;
+    box-shadow: 0 8px 18px rgba(17, 24, 39, 0.06);
 }
 
 .top-header .social a:hover {
-    background: #E47A2E;
-    border: 1px solid #E47A2E;
+    background: #bc202f;
+    border: 1px solid #bc202f;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px rgba(188, 32, 47, 0.22);
 }
 
 .top-header .social a i {
-    color: #353535;
+    color: #4b5563;
 }
 
 .top-header .social a:hover i {
@@ -162,27 +173,32 @@ button.btn:hover {
 }
 
 .top-header .login-btn {
-    display: inline-block;
-    color: #353535;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
     text-decoration: none;
-    padding: 8px 16px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background: #f8f8f8;
-    font-weight: 500;
+    padding: 11px 24px;
+    border: 1px solid #bc202f;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #c82838 0%, #a91527 100%);
+    font-weight: 700;
+    box-shadow: 0 12px 24px rgba(188, 32, 47, 0.18);
     transition: all 0.3s ease;
 }
 
 .top-header .login-btn:hover {
-    background: #E47A2E;
+    background: linear-gradient(135deg, #b11a2b 0%, #8f1120 100%);
     color: #ffffff;
-    border-color: #E47A2E;
+    border-color: #b11a2b;
     text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 14px 28px rgba(177, 26, 43, 0.22);
 }
 
 @media (min-width: 768px) {
     .top-header {
-        max-height: 90px;
+        max-height: 112px;
     }
 }
 
@@ -193,7 +209,11 @@ button.btn:hover {
     
     .top-header .text-right {
         text-align: center !important;
-        margin-top: 10px;
+        margin-top: 14px;
+    }
+
+    .top-header .logo a img {
+        max-height: 70px;
     }
 }
 
@@ -222,7 +242,7 @@ button.btn:hover {
 }
 
 .navbar-logo {
-    height: 40px;
+    height: 52px;
     width: auto;
     display: none;
 }
@@ -232,18 +252,26 @@ button.btn:hover {
     padding: 0;
 }
 
+.header .navbar-collapse,
+.header .navbar-nav {
+    direction: rtl;
+    text-align: right;
+}
+
 .navbar-dark .navbar-nav .nav-link,
 .navbar-dark .navbar-nav .nav-link:focus,
 .navbar-dark .navbar-nav .nav-link:hover,
 .navbar-dark .navbar-nav .nav-link.active {
-    padding: 10px 10px 8px 10px;
+    padding: 12px 14px 10px 14px;
     color: #ffffff;
+    transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .navbar-dark .navbar-nav .nav-link:hover,
 .navbar-dark .navbar-nav .nav-link.active {
-    background: #E47A2E;
+    background: #bc202f;
     color: #ffffff !important;
+    box-shadow: inset 0 -3px 0 rgba(255, 255, 255, 0.18);
 }
 
 .header .dropdown-menu {
@@ -1334,6 +1362,8 @@ button.btn:hover {
     z-index: 2;
     padding: 22px;
     color: #fff;
+    direction: rtl;
+    text-align: right;
 }
 
 .modern-top-news .news-badge {
@@ -2481,6 +2511,60 @@ button.btn:hover {
 
     .breaking-news-strip .ticker-meta {
         font-size: 14px;
+    }
+}
+
+.public-rtl {
+    direction: rtl;
+}
+
+.public-rtl .top-header .row,
+.public-rtl .footer-bottom .row {
+    direction: ltr;
+}
+
+.public-rtl .top-header .d-flex {
+    justify-content: flex-start;
+}
+
+.public-rtl .top-header .text-right {
+    text-align: right !important;
+}
+
+.public-rtl .header .navbar-nav,
+.public-rtl .nav-search-panel,
+.public-rtl .latest-news-strip,
+.public-rtl .secondary-news-section,
+.public-rtl .premium-service-bar .service-card,
+.public-rtl .category-news-section,
+.public-rtl .search-results-section,
+.public-rtl .contact-page-section,
+.public-rtl .single-news,
+.public-rtl .news-card-body,
+.public-rtl .footer-bottom .copyright {
+    direction: rtl;
+    text-align: right;
+}
+
+.public-rtl .footer-bottom .footer-logo {
+    text-align: left;
+}
+
+.homepage-rtl .modern-top-news > .container-fluid > .row {
+    direction: rtl;
+}
+
+@media (max-width: 767.98px) {
+    .public-rtl .top-header .row,
+    .public-rtl .footer-bottom .row,
+    .homepage-rtl .modern-top-news > .container-fluid > .row {
+        direction: rtl;
+    }
+
+    .public-rtl .top-header .d-flex,
+    .public-rtl .footer-bottom .footer-logo {
+        justify-content: center;
+        text-align: center;
     }
 }
 

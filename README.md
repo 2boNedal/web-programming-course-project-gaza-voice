@@ -1,59 +1,694 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# وكالة صوت غزة الإخبارية
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+مشروع **وكالة صوت غزة الإخبارية** هو موقع إخباري عربي مبني باستخدام Laravel، يهدف إلى نقل أخبار غزة وفلسطين من منظور إنساني وميداني منظم، مع وجود نظام تحريري واضح لإدارة الأخبار قبل نشرها للزوار.
 
-## About Laravel
+المشروع يحتوي على واجهة عامة للزوار، ولوحة تحكم للأدمن، ولوحة تحكم للكتّاب، مع نظام مراجعة ونشر للأخبار، وتصنيفات، وتاغات، وتعليقات، وأخبار عاجلة، ورسائل تواصل.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## فكرة المشروع
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+مع كثرة الأحداث المؤلمة في غزة من قصف، نزوح، حصار، جوع، دمار، شهداء، ومعاناة إنسانية يومية، جاءت فكرة المشروع لإنشاء منصة إخبارية تنقل الأخبار بشكل مرتب وواضح، وتساعد على إيصال صوت غزة إلى العالم.
 
-## Learning Laravel
+الموقع لا يكتفي بعرض الأخبار فقط، بل يحاول عكس البعد الإنساني خلف الخبر، من خلال مقالات وتغطيات تتناول:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+- أخبار غزة الميدانية.
+- أخبار فلسطين.
+- الشؤون الإسرائيلية المرتبطة بالحرب.
+- مواقف وتطورات الوطن العربي.
+- النزوح والجوع والحصار والمساعدات.
+- الشهداء والدمار واستهداف المدنيين.
+- التحليل السياسي والإنساني للأحداث.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## أنواع المستخدمين
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+يوجد في النظام ثلاثة أنواع رئيسية من المستخدمين:
 
-### Premium Partners
+### 1. الزائر Guest
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+يمكنه:
 
-## Contributing
+- تصفح الصفحة الرئيسية.
+- قراءة الأخبار المنشورة.
+- فتح صفحات التصنيفات.
+- فتح صفحة تفاصيل الخبر.
+- فتح صفحة الكاتب.
+- البحث عن الأخبار من خلال التاغات.
+- إضافة تعليق على الخبر.
+- إرسال رسالة من صفحة اتصل بنا.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 2. الكاتب Author
 
-## Code of Conduct
+يمكنه:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- تسجيل الدخول إلى لوحة الكاتب.
+- إدارة ملفه الشخصي.
+- إنشاء مقال جديد.
+- حفظ المقال كمسودة.
+- إرسال المقال للمراجعة.
+- تعديل المقال فقط إذا كان في حالة `draft` أو `needs_revision`.
+- مشاهدة مقالاته حسب حالتها.
+- حذف مقالاته المسموح حذفها حسب الحالة.
+- حذف التعليقات الموجودة على مقالاته فقط.
 
-## Security Vulnerabilities
+### 3. الأدمن Admin
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+يمكنه:
 
-## License
+- تسجيل الدخول إلى لوحة الأدمن.
+- إدارة الكتّاب.
+- إدارة حسابات الأدمن.
+- مراجعة مقالات الكتّاب.
+- نشر المقالات.
+- إرجاع المقالات للتعديل.
+- أرشفة المقالات المنشورة إلى مسودة.
+- إدارة التصنيفات.
+- إدارة التاغات.
+- إدارة التعليقات.
+- إدارة رسائل اتصل بنا.
+- إدارة الأخبار العاجلة.
+- متابعة الإشعارات.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## التقنيات المستخدمة
+
+- Laravel
+- PHP
+- MySQL
+- Blade Templates
+- HTML
+- CSS
+- JavaScript
+- Bootstrap
+- AdminLTE Dashboard
+- Laravel Authentication Guards
+- Laravel Notifications
+- Laravel Soft Deletes
+- Laravel File Storage
+
+---
+
+## هيكل المشروع
+
+المشروع مبني كتطبيق Laravel واحد Monolithic، ويحتوي على:
+
+```text
+Public Frontend + Admin Dashboard + Author Dashboard
+```
+
+أي أن الواجهة العامة ولوحات التحكم كلها داخل نفس مشروع Laravel، وليست مشاريع منفصلة.
+
+---
+
+## أهم ميزات المشروع
+
+### الواجهة العامة
+
+- صفحة رئيسية تعرض أحدث الأخبار.
+- شريط أخبار عاجلة.
+- صفحات تصنيفات.
+- صفحة تفاصيل الخبر.
+- صفحة الكاتب.
+- صفحة نتائج البحث بالتاغات.
+- صفحة اتصل بنا.
+- نموذج تعليقات للزوار.
+- تصميم عربي RTL.
+
+### لوحة الأدمن
+
+- Dashboard رئيسية.
+- إدارة المقالات حسب الحالات.
+- إدارة التصنيفات.
+- إدارة التاغات.
+- إدارة الكتّاب.
+- إدارة الأدمنز.
+- إدارة التعليقات.
+- إدارة رسائل التواصل.
+- إدارة الأخبار العاجلة.
+- إدارة الإشعارات.
+
+### لوحة الكاتب
+
+- Dashboard خاصة بالكاتب.
+- إدارة الملف الشخصي.
+- إنشاء وتعديل المقالات حسب الصلاحيات.
+- إرسال المقال للمراجعة.
+- متابعة حالة المقال.
+- إدارة تعليقات مقالاته.
+
+---
+
+## نظام المقالات
+
+يمر المقال داخل النظام بعدة حالات:
+
+```text
+draft
+pending_review
+needs_revision
+published
+```
+
+### شرح الحالات
+
+#### draft
+
+مسودة أولية يمكن للكاتب تعديلها وإرسالها للمراجعة.
+
+#### pending_review
+
+مقال أرسله الكاتب إلى الأدمن وينتظر المراجعة.  
+في هذه الحالة لا يستطيع الكاتب تعديله.
+
+#### needs_revision
+
+مقال أعاده الأدمن للكاتب من أجل التعديل.  
+يستطيع الكاتب تعديله وإرساله مرة أخرى للمراجعة.
+
+#### published
+
+مقال منشور يظهر للزوار في الموقع.  
+لا يستطيع الكاتب تعديله بعد النشر.
+
+---
+
+## قواعد مهمة في المقالات
+
+- الكاتب لا ينشر المقال مباشرة.
+- الأدمن فقط يستطيع نشر المقال.
+- المقال لا يظهر للزوار إلا إذا كانت حالته `published`.
+- المقال يجب أن يحتوي على:
+  - عنوان.
+  - Slug.
+  - محتوى.
+  - تصنيف واحد.
+  - Tag واحد على الأقل.
+  - صورة رئيسية واحدة.
+- لا يوجد أكثر من صورة للمقال.
+- الصورة الرئيسية إجبارية.
+- الأدمن لا ينشئ المقالات، بل يراجع ويدير مقالات الكتّاب.
+
+---
+
+## التصنيفات Categories
+
+التصنيفات الأساسية في المشروع:
+
+- غزة
+- أخبار فلسطين
+- شؤون إسرائيلية
+- الوطن العربي
+
+كل مقال يرتبط بتصنيف واحد فقط.
+
+التصنيفات تظهر في الـ Navbar للزائر، وتستخدم لتنظيم الأخبار في صفحات منفصلة.
+
+---
+
+## التاغات Tags
+
+التاغات تستخدم لوصف موضوع الخبر ومساعدة الزائر في البحث والفلترة.
+
+أمثلة على التاغات المستخدمة:
+
+- قصف
+- شهداء
+- جرحى
+- نزوح
+- حصار
+- جوع
+- مساعدات
+- مستشفيات
+- أطفال
+- مخيمات
+- معابر
+- مقاومة
+- هدنة
+- مفاوضات
+- إبادة
+- دمار
+- صحفيون
+- مواقف عربية
+- مواقف دولية
+- الجيش الإسرائيلي
+- الحكومة الإسرائيلية
+
+كل مقال يجب أن يحتوي على Tag واحد على الأقل.
+
+---
+
+## الأخبار العاجلة Breaking News
+
+الأخبار العاجلة عبارة عن نصوص قصيرة يضيفها الأدمن من لوحة التحكم.
+
+خصائص الأخبار العاجلة:
+
+- تظهر في شريط أعلى الواجهة العامة.
+- يتم عرض خبر عاجل واحد في كل مرة.
+- يتم التبديل تلقائيًا بين الأخبار العاجلة.
+- الخبر العاجل نص فقط وليس رابطًا.
+- يبقى الخبر ظاهرًا إلى أن يحذفه الأدمن.
+
+---
+
+## التعليقات Comments
+
+يمكن للزائر إضافة تعليق على أي خبر منشور.
+
+حقول التعليق:
+
+- الاسم.
+- البريد الإلكتروني.
+- نص التعليق.
+
+قواعد التعليقات:
+
+- التعليق يظهر مباشرة بعد الإرسال.
+- لا يوجد نظام ردود على التعليقات.
+- التعليقات تظهر من الأحدث إلى الأقدم.
+- لا يوجد Pagination للتعليقات.
+- الأدمن يستطيع حذف أي تعليق.
+- الكاتب يستطيع حذف التعليقات الموجودة على مقالاته فقط.
+
+---
+
+## رسائل اتصل بنا Contact Messages
+
+يوجد في الواجهة العامة نموذج اتصل بنا.
+
+حقول النموذج:
+
+- الاسم الكامل.
+- البريد الإلكتروني.
+- الموضوع.
+- الرسالة.
+
+قواعد رسائل التواصل:
+
+- الرسالة تحفظ في قاعدة البيانات.
+- يظهر تنبيه للأدمن بوجود رسالة جديدة.
+- الأدمن يستطيع تمييز الرسالة كمقروءة أو غير مقروءة.
+- حذف الرسائل يكون حذفًا نهائيًا مباشرًا.
+
+---
+
+## الصور والملفات
+
+الصور المستخدمة في المشروع تشمل:
+
+- صورة المقال الرئيسية.
+- صورة الكاتب.
+- صورة الأدمن إن وجدت.
+- صور الواجهة العامة.
+- صور القوالب المستخدمة.
+
+امتدادات الصور المسموحة:
+
+```text
+jpg
+jpeg
+png
+webp
+```
+
+يتم تخزين الصور باستخدام Laravel Storage، ويجب تشغيل الأمر التالي:
+
+```bash
+php artisan storage:link
+```
+
+---
+
+## متطلبات التشغيل
+
+قبل تشغيل المشروع يجب توفر:
+
+- PHP
+- Composer
+- MySQL
+- Node.js
+- NPM
+- Git
+
+---
+
+## خطوات تشغيل المشروع محليًا
+
+### 1. تحميل المشروع
+
+```bash
+git clone [https://github.com/2boNedal/web-programming-course-project-gaza-voice/]
+```
+
+ثم الدخول إلى مجلد المشروع:
+
+```bash
+cd [PROJECT_FOLDER]
+```
+
+---
+
+### 2. تثبيت مكتبات PHP
+
+```bash
+composer install
+```
+
+---
+
+### 3. تثبيت مكتبات الواجهة
+
+```bash
+npm install
+```
+
+---
+
+### 4. إنشاء ملف البيئة
+
+```bash
+cp .env.example .env
+```
+
+---
+
+### 5. توليد مفتاح التطبيق
+
+```bash
+php artisan key:generate
+```
+
+---
+
+### 6. إعداد قاعدة البيانات
+
+افتح ملف `.env` وعدّل بيانات قاعدة البيانات:
+
+```env
+DB_DATABASE=gaza_voice
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+---
+
+### 7. تشغيل الـ migrations والـ seeders
+
+```bash
+php artisan migrate --seed
+```
+
+---
+
+### 8. إنشاء رابط التخزين
+
+```bash
+php artisan storage:link
+```
+
+---
+
+### 9. تشغيل ملفات الواجهة
+
+في وضع التطوير:
+
+```bash
+npm run dev
+```
+
+أو لبناء الملفات النهائية:
+
+```bash
+npm run build
+```
+
+---
+
+### 10. تشغيل السيرفر المحلي
+
+```bash
+php artisan serve
+```
+
+ثم افتح المشروع من المتصفح:
+
+```text
+http://127.0.0.1:8000
+```
+
+---
+
+## صفحات الواجهة العامة
+
+أهم صفحات الواجهة العامة:
+
+```text
+/
+```
+
+الصفحة الرئيسية.
+
+```text
+/categories/{slug}
+```
+
+صفحة التصنيف.
+
+```text
+/articles/{slug}
+```
+
+صفحة تفاصيل الخبر.
+
+```text
+/authors/{id}
+```
+
+صفحة الكاتب.
+
+```text
+/search
+```
+
+صفحة نتائج البحث.
+
+```text
+/login
+```
+
+صفحة تسجيل الدخول.
+
+```text
+/contact
+```
+
+صفحة اتصل بنا.
+
+---
+
+## تسجيل الدخول
+
+يوجد في المشروع صفحة Login واحدة.
+
+بعد تسجيل الدخول:
+
+- إذا كان المستخدم Admin يتم تحويله إلى لوحة الأدمن.
+- إذا كان المستخدم Author يتم تحويله إلى لوحة الكاتب.
+- إذا كانت البيانات غير صحيحة تظهر رسالة خطأ.
+- إذا كان الحساب معطلًا تظهر رسالة خطأ واضحة.
+
+---
+
+## بيانات الدخول التجريبية
+
+> ملاحظة: عدّل هذه البيانات حسب البيانات الموجودة في Seeder أو قاعدة البيانات الخاصة بالمشروع.
+
+### Admin
+
+```text
+Email: m@gaza.ps
+Password: 123
+```
+
+### Author
+
+```text
+Email: wd@gaza.ps
+Password: 123
+```
+
+---
+
+## لوحة الأدمن
+
+رابط لوحة الأدمن يكون بعد تسجيل الدخول بحساب Admin.
+
+الأقسام الرئيسية:
+
+- Dashboard
+- Articles
+- Trashed Articles
+- Categories
+- Trashed Categories
+- Tags
+- Authors
+- Trashed Authors
+- Admins
+- Comments
+- Contact Messages
+- Breaking News
+- Notifications
+
+---
+
+## لوحة الكاتب
+
+رابط لوحة الكاتب يكون بعد تسجيل الدخول بحساب Author.
+
+الأقسام الرئيسية:
+
+- Dashboard
+- Articles
+- Trashed Articles
+- Comments
+- Profile
+
+---
+
+## إدارة الحذف والاسترجاع
+
+يعتمد المشروع على Soft Delete في عدة أجزاء مثل:
+
+- المقالات.
+- الكتّاب.
+- التعليقات.
+- التصنيفات.
+
+أما رسائل اتصل بنا فيتم حذفها حذفًا نهائيًا مباشرًا.
+
+---
+
+## قواعد حذف المقالات
+
+- المقال لا يُحذف إلا إذا كان في حالة `draft`.
+- الكاتب يستطيع حذف مقاله إذا كان Draft ومن إنشائه.
+- الأدمن يستطيع حذف المقال من حالة Draft.
+- المقال المنشور لا يتم حذفه مباشرة، بل يجب أرشفته إلى Draft أولًا.
+- الاسترجاع من سلة المحذوفات يرجع المقال إلى Draft.
+
+---
+
+## الإشعارات Notifications
+
+يستخدم المشروع Laravel Database Notifications.
+
+الأحداث التي تولّد إشعارات للأدمن:
+
+- إضافة تعليق جديد.
+- إرسال رسالة تواصل جديدة.
+- إرسال مقال جديد للمراجعة.
+
+---
+
+## ملاحظات مهمة
+
+- لا يوجد تسجيل عام للكتّاب.
+- الأدمن هو من ينشئ حساب الكاتب.
+- لا توجد Subcategories.
+- لا توجد Newsletter.
+- لا يوجد Settings CMS.
+- لا يوجد Public REST API منفصل.
+- الواجهة العامة ولوحات التحكم داخل نفس تطبيق Laravel.
+- الموقع عربي ويعتمد RTL.
+- البحث يعتمد على اختيار التاغات وليس بحثًا نصيًا عامًا داخل المقالات.
+
+---
+
+## أعضاء الفريق وتوزيع العمل
+
+تم توزيع العمل على أعضاء الفريق بحيث يكون لكل عضو مسؤولية كاملة عن Modules محددة من حيث:
+
+- Migration
+- Model
+- Relationships
+- Validation
+- Controller
+- Routes
+- Views
+- CRUD Operations
+- Integration
+
+### Mohammed
+
+المسؤوليات:
+
+- admins
+- banners
+- notifications
+- إعداد المشروع
+- إدارة GitHub
+- التنسيق العام بين الفريق
+
+### Abood
+
+المسؤوليات:
+
+- authors
+- comments
+- author profile
+- public author page
+- comments integration
+
+### Mjd
+
+المسؤوليات:
+
+- articles
+- article_tag
+- article workflow
+- homepage article integration
+- related articles
+
+### Jaber
+
+المسؤوليات:
+
+- categories
+- tags
+- contact_messages
+- tag search support
+- contact form integration
+
+---
+
+## الهدف النهائي من المشروع
+
+الهدف من المشروع هو تقديم موقع إخباري عربي متكامل يعكس صوت غزة، وينقل الأخبار من منظور إنساني ومنظم، مع وجود نظام واضح لإدارة المحتوى ومراجعته قبل النشر.
+
+المشروع يوضح تطبيقًا عمليًا على Laravel من خلال بناء:
+
+- واجهة عامة متكاملة.
+- لوحة أدمن.
+- لوحة كاتب.
+- نظام مقالات.
+- نظام تعليقات.
+- نظام تصنيفات وتاغات.
+- نظام أخبار عاجلة.
+- نظام رسائل تواصل.
+- نظام إشعارات.
+- صلاحيات متعددة للمستخدمين.
+
+---
+
+## حالة المشروع
+
+المشروع مكتمل كنسخة جامعية/تدريبية قابلة للتشغيل والعرض، مع إمكانية التطوير المستقبلي بإضافة ميزات مثل:
+
+- لوحة إعدادات عامة للموقع.
+- نظام صلاحيات Admin متقدم.
+- تحسين البحث.
+- تحسين حماية التعليقات من السبام.
+- إضافة تقارير وإحصائيات موسعة.
